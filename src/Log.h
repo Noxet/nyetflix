@@ -17,3 +17,5 @@ namespace NyetFlix
 
 
 #define NF_CORE_TRACE(...)	::NyetFlix::Log::getCoreLogger()->trace(__VA_ARGS__)
+#define NF_CORE_INFO(...)	::NyetFlix::Log::getCoreLogger()->info(__VA_ARGS__)
+#define NF_CORE_WARN(...)	::NyetFlix::Log::getCoreLogger()->warn(__VA_ARGS__)

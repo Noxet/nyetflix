@@ -7,7 +7,9 @@
 #include <libtorrent/torrent_handle.hpp>
 #include <libtorrent/magnet_uri.hpp>
 
+
 using namespace std;
+
 
 int main(int argc, char *argv[])
 {
@@ -24,6 +26,8 @@ int main(int argc, char *argv[])
 
 	NyetFlix::Log::init();
 	NF_CORE_TRACE("Testing log");
+
+	NF_CORE_WARN("Testing warning");
 
 	cout << "Torrent info:" << endl;
 	cout << "name: " << atp.name << endl;
