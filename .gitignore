@@ -6,6 +6,9 @@ bin-int/
 # Vendor libs
 vendor/
 
+# Conan build dir
+build/
+
 # Visual Studio files and folder
 .vs/
 **.sln
