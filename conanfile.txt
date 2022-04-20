@@ -1,0 +1,6 @@
+[requires]
+libtorrent/2.0.1
+spdlog/1.10.0
+
+[generators]
+premake
