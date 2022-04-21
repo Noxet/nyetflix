@@ -11,7 +11,7 @@ namespace NyetFlix
 	void Log::init()
 	{
 		auto consoleSink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
-		consoleSink->set_level(spdlog::level::warn);
+		consoleSink->set_level(spdlog::level::trace);
 
 		auto fileSink = std::make_shared<spdlog::sinks::basic_file_sink_mt>("logs/nyetflix.txt", true);
 		fileSink->set_level(spdlog::level::trace);

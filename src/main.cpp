@@ -1,11 +1,8 @@
 #include <iostream>
+#include <future>
 
 #include "Log.h"
-
-#include <libtorrent/session.hpp>
-#include <libtorrent/add_torrent_params.hpp>
-#include <libtorrent/torrent_handle.hpp>
-#include <libtorrent/magnet_uri.hpp>
+#include "TorrentManager.h"
 
 
 using namespace std;
@@ -13,20 +10,25 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
-	if (argc != 2)
+	if (argc != 3)
 	{
 		cout << "Usage: nyetflix <magnet url>" << endl;
 	}
 
-	lt::session sess;
-
-	lt::add_torrent_params atp = lt::parse_magnet_uri(argv[1]);
-	atp.save_path = ".";
-	lt::torrent_handle handle = sess.add_torrent(atp);
-
 	NyetFlix::Log::init();
 	NF_CORE_TRACE("Testing log");
 
+	TorrentManager tm;
+	auto f = async(&TorrentManager::run, &tm);
+	cout << "started run() async" << endl;
+
+	cout << "Try to add yet another torrent" << endl;
+	tm.addTorrent(argv[1]);
+	tm.addTorrent(argv[2]);
+	cout << "Torrent added" << endl;
+
+
+	/*
 	NF_CORE_WARN("Testing warning");
 
 	cout << "Torrent info:" << endl;
@@ -38,4 +40,5 @@ int main(int argc, char *argv[])
 	{
 		cout << seed << endl;
 	}
+	*/
 }
