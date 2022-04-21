@@ -1,6 +1,8 @@
 [requires]
 libtorrent/2.0.1
 spdlog/1.10.0
+grpc/1.44.0
+openssl/1.1.1n
 
 [generators]
 premake
