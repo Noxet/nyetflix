@@ -12,6 +12,9 @@ build/
 # Protobuf
 *.pb.*
 
+# Nyetflix logs
+logs/
+
 # Visual Studio files and folder
 .vs/
 **.sln
