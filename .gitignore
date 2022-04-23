@@ -9,6 +9,9 @@ vendor/
 # Conan build dir
 build/
 
+# Protobuf
+*.pb.*
+
 # Visual Studio files and folder
 .vs/
 **.sln
