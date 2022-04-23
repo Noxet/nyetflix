@@ -3,7 +3,7 @@
 
 #include "Log.h"
 #include "TorrentManager.h"
-#include "RPCServer.h"
+#include "NyetFlixServer.h"
 
 
 using namespace std;
