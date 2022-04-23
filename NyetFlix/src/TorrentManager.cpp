@@ -3,6 +3,7 @@
 
 #include <thread>
 #include <chrono>
+#include <iostream>
 
 using namespace std;
 using namespace lt;
@@ -26,6 +27,8 @@ void TorrentManager::addTorrent(const std::string &torrent)
 
 void TorrentManager::run()
 {
+	NF_CORE_INFO("Torrent manager started");
+
 	torrent_handle handle;
 	while (true)
 	{

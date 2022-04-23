@@ -28,6 +28,6 @@ public:
 	NyetFlixServer& operator=(const NyetFlixServer &other) = delete;
 	NyetFlixServer& operator=(NyetFlixServer &&other) noexcept = delete;
 
-
+	// Starts the RPC server and the torrent manager thread
 	void run();
 };

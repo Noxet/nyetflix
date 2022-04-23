@@ -2,8 +2,10 @@
 
 #include <iostream>
 #include <string>
+#include <future>
 
 #include "Log.h"
+#include "TorrentManager.h"
 
 using std::string;
 
@@ -15,6 +17,22 @@ using std::string;
  */
 class NyetFlixRPCImpl final : public NyetFlixRPC::Service
 {
+	TorrentManager m_torrentManager;
+	std::future<void> torrentAsync;
+
+public:
+	void run()
+	{
+		torrentAsync = std::async(std::launch::async, &TorrentManager::run, &m_torrentManager);
+	}
+
+
+	void wait() const
+	{
+		torrentAsync.wait();
+	}
+
+
 	Status SayHello(grpc::ServerContext *context, const HelloRequest *request,
 	                HelloReply *response) override
 	{
@@ -44,5 +62,8 @@ NyetFlixServer::~NyetFlixServer()
 void NyetFlixServer::run()
 {
 	NF_CORE_INFO("NyetFlix RPC server started");
+	m_service->run();
+	// wait for threads to close.
 	m_server->Wait();
+	m_service->wait();
 }
