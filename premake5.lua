@@ -1,6 +1,6 @@
 include("build/conanbuildinfo.premake")
 
-workspace "nyetflix"
+workspace "NyetFlix"
     architecture "x64"
     configurations {"Release", "Debug"}
 
@@ -26,26 +26,65 @@ workspace "nyetflix"
 
     ---------------
     -- Main project
-    project "nyetflix"
-        location "src"
+    project "NyetFlix"
+        location "NyetFlix"
         kind "ConsoleApp"
 
         targetdir ("bin/%{prj.name}")
         objdir ("bin-int/%{prj.name}")
 
+        includedirs
+        {
+            "Protobufs"
+        }
+
         linkoptions { conan_exelinkflags }
 
         files
         {
-            "src/**.h",
-            "src/**.cpp",
-            "src/**.cc", -- protobuf stuff
+            "%{prj.name}/src/**.h",
+		    "%{prj.name}/src/**.cpp",
+            "Protobufs/**.cc",
+        }
+
+        dependson
+        {
+            "Protobufs"
+        }
+
+    
+    ---------------
+    -- Client for testing RPC
+    project "TestClient"
+        location "TestClient"
+        kind "ConsoleApp"
+
+        targetdir ("bin/%{prj.name}")
+        objdir ("bin-int/%{prj.name}")
+
+        includedirs
+        {
+            "Protobufs"
+        }
+
+        linkoptions { conan_exelinkflags }
+
+        files
+        {
+            "%{prj.name}/src/**.h",
+		    "%{prj.name}/src/**.cpp",
+            "Protobufs/**.cc",
+        }
+
+        dependson
+        {
+            "Protobufs"
         }
 
     ---------------
     -- All protocol buffers that we need to build
-    project "protobufs"
-        location "protobufs"
+    project "Protobufs"
+        location "Protobufs"
         kind "Utility"
 
         targetdir ("bin/%{prj.name}")
@@ -53,13 +92,11 @@ workspace "nyetflix"
 
         files
         {
-            "protobufs/**.proto"
+            "%{prj.name}/**.proto"
         }
-
-        buildmessage 'Compiling protobuf definitions'
 
         prebuildcommands
         {
-            "protoc -I . --cpp_out=../src nyetflix.proto",
-            'protoc -I . --grpc_out=../src --plugin=protoc-gen-grpc="C:/.conan/8b1347/1/bin/grpc_cpp_plugin.exe" nyetflix.proto'
+            "protoc -I . --cpp_out=. nyetflix.proto",
+            'protoc -I . --grpc_out=. --plugin=protoc-gen-grpc="C:/.conan/8b1347/1/bin/grpc_cpp_plugin.exe" nyetflix.proto' -- TODO: fix hard coded path to grpc_cpp_plugin
         }
