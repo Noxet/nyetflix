@@ -3,6 +3,7 @@
 
 #include "Log.h"
 #include "TorrentManager.h"
+#include "RPCServer.h"
 
 
 using namespace std;
@@ -18,6 +19,11 @@ int main(int argc, char *argv[])
 	NyetFlix::Log::init();
 	NF_CORE_TRACE("Testing log");
 
+	NyetFlixServer server("0.0.0.0:50051");
+	server.run();
+
+
+	/*
 	TorrentManager tm;
 	auto f = async(&TorrentManager::run, &tm);
 	cout << "started run() async" << endl;
@@ -26,7 +32,7 @@ int main(int argc, char *argv[])
 	tm.addTorrent(argv[1]);
 	tm.addTorrent(argv[2]);
 	cout << "Torrent added" << endl;
-
+	*/
 
 	/*
 	NF_CORE_WARN("Testing warning");
