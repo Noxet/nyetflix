@@ -2,7 +2,7 @@ include("build/conanbuildinfo.premake")
 
 workspace "nyetflix"
     architecture "x64"
-    configurations {"Debug", "Release"}
+    configurations {"Release", "Debug"}
 
     conan_basic_setup()
 
@@ -24,17 +24,42 @@ workspace "nyetflix"
         defines {"WINDOWS"}
 
 
-project "nyetflix"
-    location "src"
-    kind "ConsoleApp"
+    ---------------
+    -- Main project
+    project "nyetflix"
+        location "src"
+        kind "ConsoleApp"
 
-    targetdir ("bin/%{prj.name}")
-    objdir ("bin-int/%{prj.name}")
+        targetdir ("bin/%{prj.name}")
+        objdir ("bin-int/%{prj.name}")
 
-    linkoptions { conan_exelinkflags }
+        linkoptions { conan_exelinkflags }
 
-    files
-    {
-        "src/**.h",
-        "src/**.cpp",
-    }
+        files
+        {
+            "src/**.h",
+            "src/**.cpp",
+            "src/**.cc", -- protobuf stuff
+        }
+
+    ---------------
+    -- All protocol buffers that we need to build
+    project "protobufs"
+        location "protobufs"
+        kind "Utility"
+
+        targetdir ("bin/%{prj.name}")
+        objdir ("bin-int/%{prj.name}")
+
+        files
+        {
+            "protobufs/**.proto"
+        }
+
+        buildmessage 'Compiling protobuf definitions'
+
+        prebuildcommands
+        {
+            "protoc -I . --cpp_out=../src nyetflix.proto",
+            'protoc -I . --grpc_out=../src --plugin=protoc-gen-grpc="C:/.conan/8b1347/1/bin/grpc_cpp_plugin.exe" nyetflix.proto'
+        }
