@@ -8,8 +8,9 @@ using grpc::Status;
 using grpc::Server;
 using grpc::ServerBuilder;
 using nyetflix::NyetFlixRPC;
-using nyetflix::HelloReply;
-using nyetflix::HelloRequest;
+using nyetflix::torrentURI;
+using nyetflix::status;
+using nyetflix::empty;
 
 
 class NyetFlixServer

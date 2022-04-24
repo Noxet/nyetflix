@@ -11,11 +11,6 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
-	if (argc != 3)
-	{
-		cout << "Usage: nyetflix <magnet url>" << endl;
-	}
-
 	NyetFlix::Log::init();
 	NF_CORE_TRACE("Testing log");
 

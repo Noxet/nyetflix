@@ -5,15 +5,19 @@ package nyetflix;
 
 service NyetFlixRPC {
 
-	rpc SayHello (HelloRequest) returns (HelloReply) {}
+	rpc addTorrent (torrentURI) returns (empty) {}
 
-	rpc SayHelloAgain (HelloRequest) returns (HelloReply) {}
+	rpc getStatus (empty) returns (status) {}
 }
 
-message HelloRequest {
-	string name = 1;
+message torrentURI {
+	string torrent = 1;
 }
 
-message HelloReply {
-	string message = 1;
+message status {
+	string msg = 1;
+}
+
+message empty {
+	
 }

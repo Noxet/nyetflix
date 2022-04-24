@@ -33,13 +33,19 @@ public:
 	}
 
 
-	Status SayHello(grpc::ServerContext *context, const HelloRequest *request,
-	                HelloReply *response) override
+	Status addTorrent(grpc::ServerContext *context, const torrentURI *request, empty *response) override
 	{
 		const string prefix("Hello ");
-		NF_CORE_INFO("Got message from client: {}", request->name());
+		NF_CORE_INFO("Got torrent from client: {}", request->torrent());
 
-		response->set_message(prefix + request->name());
+
+		return Status::OK;
+	}
+
+
+	Status getStatus(grpc::ServerContext *context, const empty *request, status *response) override
+	{
+		response->set_msg("Getting torrent status");
 		return Status::OK;
 	}
 };
