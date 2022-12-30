@@ -6,8 +6,14 @@ bin-int/
 # Vendor libs
 vendor/
 
+### Conan ###
 # Conan build dir
 build/
+# Conan build information
+conan.lock
+conanbuildinfo.*
+conaninfo.txt
+graph_info.json
 
 # Protobuf
 *.pb.*
@@ -20,4 +26,4 @@ logs/
 **.sln
 **.vcxproj
 **.vcxproj.filters
-**.vcxproj.user
+**.user
