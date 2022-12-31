@@ -30,7 +30,7 @@ char const* state(torrent_status::state_t s)
 }
 
 
-void Test::run(std::string uri)
+void Test::run(std::vector<std::string> uris)
 {
 	try
 	{
@@ -39,9 +39,15 @@ void Test::run(std::string uri)
 		p.set_int(settings_pack::alert_mask, alert_category::status | alert_category::error);
 		session sess(std::move(p));
 
-		add_torrent_params atp = parse_magnet_uri(uri);
-		atp.save_path = ".";
-		torrent_handle h = sess.add_torrent(std::move(atp));
+		std::vector<torrent_handle> thandles{};
+
+		for (const auto &uri : uris)
+		{
+			add_torrent_params atp = parse_magnet_uri(uri);
+			atp.save_path = ".";
+			sess.async_add_torrent(std::move(atp));
+		}
+
 
 		bool active{ true };
 		bool newAlerts{ false };
@@ -69,6 +75,11 @@ void Test::run(std::string uri)
 					break;
 				}
 
+				if (const auto at = alert_cast<add_torrent_alert>(a))
+				{
+					thandles.push_back(at->handle);
+				}
+
 				if (const auto st = alert_cast<state_update_alert>(a))
 				{
 					if (st->status.empty()) continue;
@@ -81,9 +92,10 @@ void Test::run(std::string uri)
 					}
 				}
 
-				if (alert_cast<torrent_finished_alert>(a))
+				if (const auto at = alert_cast<torrent_finished_alert>(a))
 				{
-					active = false;
+					//active = false;
+					cout << format("FINISHED {}", at->handle.status().name) << endl;
 				}
 
 				sess.post_torrent_updates();
@@ -92,6 +104,11 @@ void Test::run(std::string uri)
 				//newAlerts = false;
 
 				std::this_thread::sleep_for(std::chrono::milliseconds(200));
+				cout << "HANDLES:" << endl;
+				for (const auto &h : thandles)
+				{
+					cout << h.status().name << endl;
+				}
 			}
 		}
 

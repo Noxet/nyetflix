@@ -1,10 +1,11 @@
 #pragma once
 #include <string>
+#include <vector>
 
 using namespace std;
 
 class Test
 {
 public:
-	void run(std::string uri);
+	void run(vector<std::string> uris);
 };
