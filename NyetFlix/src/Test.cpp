@@ -30,33 +30,26 @@ char const* state(torrent_status::state_t s)
 }
 
 
-void Test::run(std::vector<std::string> uris)
+Test::Test()
+{
+	settings_pack p;
+	p.set_int(settings_pack::alert_mask, alert_category::status | alert_category::error);
+	m_sess.apply_settings(std::move(p));
+}
+
+
+void Test::run()
 {
 	try
 	{
-		settings_pack p;
-
-		p.set_int(settings_pack::alert_mask, alert_category::status | alert_category::error);
-		session sess(std::move(p));
-
-		std::vector<torrent_handle> thandles{};
-
-		for (const auto &uri : uris)
-		{
-			add_torrent_params atp = parse_magnet_uri(uri);
-			atp.save_path = ".";
-			sess.async_add_torrent(std::move(atp));
-		}
-
-
 		bool active{ true };
 		bool newAlerts{ false };
-		sess.set_alert_notify([&newAlerts]() { newAlerts = true; });
+		m_sess.set_alert_notify([&newAlerts]() { newAlerts = true; });
 
 		while (active)
 		{
 			std::vector<alert*> alerts;
-			sess.pop_alerts(&alerts);
+			m_sess.pop_alerts(&alerts);
 
 			for (const auto &a : alerts)
 			{
@@ -98,7 +91,7 @@ void Test::run(std::vector<std::string> uris)
 					cout << format("FINISHED {}", at->handle.status().name) << endl;
 				}
 
-				sess.post_torrent_updates();
+				m_sess.post_torrent_updates();
 
 				//while (!newAlerts) {}
 				//newAlerts = false;
@@ -118,4 +111,13 @@ void Test::run(std::vector<std::string> uris)
 	{
 		cout << e.what() << endl;
 	}
+}
+
+
+void Test::addTorrent(std::string uri)
+{
+	cout << "addTorrent" << endl;
+	add_torrent_params atp = parse_magnet_uri(uri);
+	atp.save_path = ".";
+	m_sess.async_add_torrent(std::move(atp));
 }
