@@ -7,7 +7,9 @@ workspace "NyetFlix"
     conan_basic_setup()
 
     language "C++"
-    cppdialect "C++20"
+    cppdialect "C++latest"
+
+    warnings "Extra"
 
     filter "configurations:Debug"
         -- Add preprocessor definition DEBUG to compiler
@@ -21,7 +23,17 @@ workspace "NyetFlix"
         optimize "On"
 
     filter "system:windows"
-        defines {"WINDOWS"}
+        defines
+        {
+            "WINDOWS",
+            "_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING",   -- Supress deprecation warning from GRPC lib
+            "_WIN32_WINNT=0x0A00"                                       -- Set windows target to Windows 10
+        }
+
+        resoptions
+        {
+            "/permissive-"      -- force ISO standard conformance TODO: check that this works
+        }
 
 
     ---------------
