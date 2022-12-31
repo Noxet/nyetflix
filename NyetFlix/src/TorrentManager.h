@@ -8,8 +8,6 @@
 
 class TorrentManager
 {
-	lt::session m_session{};
-
 public:
 	TorrentManager();
 	/**
@@ -25,4 +23,7 @@ public:
 	 * It responds to added torrent, prints status information and so on.
 	*/
 	void run();
+
+private:
+	lt::session m_session{};
 };

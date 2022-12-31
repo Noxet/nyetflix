@@ -15,10 +15,6 @@ using nyetflix::empty;
 
 class NyetFlixServer
 {
-	class NyetFlixRPCImpl *m_service;
-	ServerBuilder m_builder;
-	std::unique_ptr<Server> m_server;
-
 public:
 	explicit NyetFlixServer(const std::string &address);
 	~NyetFlixServer();
@@ -31,4 +27,9 @@ public:
 
 	// Starts the RPC server and the torrent manager thread
 	void run();
+
+private:
+	class NyetFlixRPCImpl *m_service;
+	ServerBuilder m_builder;
+	std::unique_ptr<Server> m_server;
 };
