@@ -2,6 +2,7 @@
 **/bin/
 bin-int/
 *.exe
+premake5
 
 # Vendor libs
 vendor/
@@ -27,3 +28,6 @@ logs/
 **.vcxproj
 **.vcxproj.filters
 **.user
+
+# make
+Makefile
