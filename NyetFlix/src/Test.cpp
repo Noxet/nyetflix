@@ -7,7 +7,6 @@
 #include <libtorrent/magnet_uri.hpp>
 #include <libtorrent/alert_types.hpp>
 
-#include <format>
 #include <thread>
 #include <chrono>
 
@@ -58,8 +57,8 @@ void Test::run()
 				case torrent_added_alert::alert_type:
 				case file_completed_alert::alert_type:
 				case torrent_finished_alert::alert_type:
-					cout << std::format("Alert: [CAT: ] [TYPE: {}] - {}\n\t{}", a->type(), a->message(),
-					                    a->what()) << endl;
+					//cout << std::format("Alert: [CAT: ] [TYPE: {}] - {}\n\t{}", a->type(), a->message(),
+					//                    a->what()) << endl;
 					break;
 				case udp_error_alert::alert_type:
 					cout << "UDP error" << endl;
@@ -79,16 +78,16 @@ void Test::run()
 
 					for (const auto &ts : st->status)
 					{
-						cout << std::format("{}\t{} kB/s\t{} kB\t{}% downloaded\t({} peers)\x1b[K", state(ts.state),
-						                    ts.download_payload_rate / 1000, ts.total_done / 1000,
-						                    ts.progress_ppm / 10000, ts.num_peers) << endl;
+						//cout << std::format("{}\t{} kB/s\t{} kB\t{}% downloaded\t({} peers)\x1b[K", state(ts.state),
+						  //                  ts.download_payload_rate / 1000, ts.total_done / 1000,
+						    //                ts.progress_ppm / 10000, ts.num_peers) << endl;
 					}
 				}
 
 				if (const auto at = alert_cast<torrent_finished_alert>(a))
 				{
 					//active = false;
-					cout << format("FINISHED {}", at->handle.status().name) << endl;
+					//cout << format("FINISHED {}", at->handle.status().name) << endl;
 				}
 
 				m_sess.post_torrent_updates();
