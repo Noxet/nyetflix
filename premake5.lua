@@ -35,6 +35,9 @@ workspace "NyetFlix"
             "/permissive-"      -- force ISO standard conformance TODO: check that this works
         }
 
+    filter "system:macosx"
+        cppdialect "C++2a"
+
 
     ---------------
     -- Main project
@@ -55,7 +58,7 @@ workspace "NyetFlix"
         files
         {
             "%{prj.name}/src/**.h",
-		    "%{prj.name}/src/**.cpp",
+            "%{prj.name}/src/**.cpp",
             "Protobufs/**.cc",
         }
 
@@ -84,7 +87,7 @@ workspace "NyetFlix"
         files
         {
             "%{prj.name}/src/**.h",
-		    "%{prj.name}/src/**.cpp",
+            "%{prj.name}/src/**.cpp",
             "Protobufs/**.cc",
         }
 
@@ -107,8 +110,16 @@ workspace "NyetFlix"
             "%{prj.name}/**.proto"
         }
 
+    filter "system:windows"
         prebuildcommands
         {
             "protoc -I . --cpp_out=. nyetflix.proto",
             'protoc -I . --grpc_out=. --plugin=protoc-gen-grpc="C:/.conan/8b1347/1/bin/grpc_cpp_plugin.exe" nyetflix.proto' -- TODO: fix hard coded path to grpc_cpp_plugin
+        }
+	
+    filter "system:macosx"
+        prebuildcommands
+        {
+            "protoc -I . --cpp_out=. nyetflix.proto",
+            'protoc -I . --grpc_out=. --plugin=protoc-gen-grpc="%{conan_rootpath_grpc}/bin/grpc_cpp_plugin" nyetflix.proto' -- TODO: fix hard coded path to grpc_cpp_plugin
         }
